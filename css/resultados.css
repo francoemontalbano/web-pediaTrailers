@@ -1,0 +1,86 @@
+@media screen and (max-width: 768px) {
+  /* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Estilos para pantallas medianas (por ejemplo, tabletas) */
+}
+
+@media screen and (min-width: 1025px) {
+  /* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+}
+
+body{
+    font-family: 'Bree Serif', serif;
+    background: #0F2027;  
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); 
+}
+
+
+.bg-custom {
+  background: #0F2027;
+  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  color: white;
+}
+
+.nav-link:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
+}
+
+/* Estilo para los posters de resultados en forma de cartelera */
+.pelicula {
+  width: 200px; /* Ancho del póster */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 10px; /* Espacio alrededor de cada póster */
+  display: inline-block; /* Muestra los posters en línea */
+  vertical-align: top; /* Alinea los posters en la parte superior */
+  text-align: center; /* Centra el contenido horizontalmente */
+  margin-top: 70px;
+}
+
+/* Estilo para la imagen del póster */
+.pelicula img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px; /* Espacio entre la imagen y el título */
+}
+
+/* Estilo para el título de la película */
+.pelicula h3 {
+  font-size: 1rem;
+  margin: 0;
+  padding: 10px;
+  text-align: center; /* Centra el texto horizontalmente */
+  color: white; /* Agrega color blanco al texto del título */
+}
+
+.error-message {
+  display: inline-block; /* Hace que el contenedor ocupe solo el ancho del contenido */
+  margin: 366px auto; /* Centra el contenedor horizontalmente y agrega espacio en blanco en la parte superior */
+  margin-left: 700px;
+  padding: 10px 20px; /* Relleno interno */
+  border: 2px solid #ff6347; /* Borde de 2 píxeles de ancho en color rojo claro */
+  background-color: #ff6347; /* Color de fondo (rojo claro) */
+  color: #fff; /* Color del texto (blanco) */
+  font-size: 18px; /* Tamaño de fuente */
+  font-weight: bold; /* Texto en negrita */
+  border-radius: 5px; /* Bordes redondeados */
+  text-align: center; /* Centra el texto horizontalmente */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra suave */
+}
+
+/* Estilo adicional para resaltar el mensaje de error */
+.error-message p {
+  font-size: 18px; /* Tamaño de fuente */
+  font-weight: bold; /* Texto en negrita */
+}
+
+
+
+

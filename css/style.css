@@ -1,0 +1,171 @@
+@media screen and (max-width: 768px) {
+  /* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  /* Estilos para pantallas medianas (por ejemplo, tabletas) */
+}
+
+@media screen and (min-width: 1025px) {
+  /* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+}
+
+body{
+    font-family: 'Bree Serif', serif;
+    background: #0F2027;  
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); 
+}
+
+
+/* Estilos generales para el navbar */
+.navbar {
+  background: #0F2027;
+  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  color: white;
+}
+
+/* Estilo para el botón del toggler en dispositivos móviles */
+.navbar-toggler {
+  border-color: white; /* Cambia el color del icono del toggler en dispositivos móviles */
+}
+
+/* Estilo para los enlaces del navbar */
+.navbar-nav .nav-link {
+  color: white;
+  font-size: 16px;
+}
+
+/* Estilo para el formulario de búsqueda */
+.form-inline .form-control {
+  border-color: white;
+}
+
+/* Estilo para los botones de búsqueda y cerrar sesión */
+.navbar-nav .btn {
+  font-size: 16px;
+  margin-left: 10px; /* Ajusta el espacio entre los elementos del navbar */
+}
+
+/* Estilo para el mensaje de bienvenida */
+.navbar-brand::after {
+  font-size: 14px;
+}
+
+/* Estilos para el navbar fijo en la parte superior */
+.fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 60px;
+}
+
+/* Estilos para el enlace activo en el navbar */
+.navbar-nav .nav-item.active .nav-link {
+  background-color: transparent; /* Evita que el enlace activo tenga un fondo de color */
+  border-bottom: 2px solid white; /* Añade un borde inferior al enlace activo */
+}
+
+
+/* Centra verticalmente el contenido del contenedor principal */
+.container.my-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* Ajusta la altura al 100% de la ventana visible */
+  margin-top: 80vh;
+}
+
+/* Agrega margen superior al contenedor del carrusel para ajustar el espacio */
+#movie-carousel {
+  margin-top: 10px; /* Ajusta la cantidad de espacio que deseas */
+}
+
+/* Agrega margen superior al título para ajustar el espacio */
+h1 {
+  color: wheat;
+  margin-top: 20px; /* Ajusta la cantidad de espacio que deseas */
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.nav-link:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
+}
+
+
+
+.carousel .row a img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .carousel .row a {
+    margin-right: -2px; /* Ajusta el valor para el espacio deseado entre los pósters */
+}
+
+.carousel-control-next, .carousel-control-prev {
+    margin-top: 90px;
+    margin-right: 250px;
+    margin-left: 160px;
+    position: absolute;
+    top: 0;
+}
+
+.carousel .row {
+  display: flex; /* O display: grid; */
+  flex-wrap: nowrap; /* Para evitar el salto a la siguiente línea */
+}
+
+.carousel-control {
+  /* Oculta el exceso de área clicable */
+  overflow: hidden;
+}
+
+.carousel-control-next {
+  right: 0; /* Ajusta la posición horizontal de la flecha derecha */
+  margin-right: 0; /* Elimina el margen derecho */
+}
+
+.carousel-control-prev {
+  left: 0; /* Ajusta la posición horizontal de la flecha izquierda */
+  margin-left: 0; /* Elimina el margen izquierdo */
+}
+  
+  .fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px; /* Ajusta la altura según tus necesidades */
+    /* Agrega otros estilos que desees aplicar al navbar fijo */
+  }
+
+  .card{
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+  }
+
+  /* Estilo para las imágenes del carrusel */
+.carousel .carousel-inner img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Centra la imagen horizontalmente en el carrusel */
+  transition: transform 0.3s; /* Añade una transición suave */
+}
+
+/* Estilo para resaltar las imágenes al pasar el mouse por encima */
+.carousel .carousel-inner img:hover {
+  transform: scale(1.05); /* Escala la imagen al 105% en el hover */
+}
+
+
