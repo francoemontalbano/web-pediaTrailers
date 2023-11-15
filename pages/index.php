@@ -114,7 +114,7 @@ $conn->close();
   <script src="carousel.js"></script>
   <footer class="bg-custom text-center text-white mt-4 p-3">
     <img src="../img/Icono.png" width="30" height="30" class="mr-2">
-    PediaTrailers &copy; <?php echo date("Y"); ?>
+    pediaTrailers &copy; <?php echo date("Y"); ?>
   </footer>
 </body>
 

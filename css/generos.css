@@ -26,11 +26,6 @@ body{
   color: white;
 }
 
-/* Estilo para el botón del toggler en dispositivos móviles */
-.navbar-toggler {
-  border-color: white; /* Cambia el color del icono del toggler en dispositivos móviles */
-}
-
 /* Estilo para los enlaces del navbar */
 .navbar-nav .nav-link {
   color: white;

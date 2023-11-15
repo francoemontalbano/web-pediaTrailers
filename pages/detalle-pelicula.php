@@ -13,6 +13,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/estilos-detalle.css">
+<link rel="stylesheet" href="../css/comentarios.css">
 <link rel="icon" href="../img/Icono.png">
 
 <head>
@@ -118,6 +119,22 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </div>
   </div>
 
+  <!-- Esta sección está dentro del contenedor principal de tu página -->
+<div class="container section">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Comentarios:</h2>
+            <div id="comments-container"></div>
+            <form id="commentForm">
+                <textarea id="commentText" placeholder="Añade un comentario..." rows="4" required></textarea>
+                <button type="submit">Comentar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="comments-container">
+</div>
 
   <script src="detalle-pelicula.js"></script>.
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

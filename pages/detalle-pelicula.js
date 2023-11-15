@@ -7,6 +7,13 @@ const mediaType = urlParams.get('type'); // Agregar un parámetro "type" a la UR
 const addToFavoritesButton = document.getElementById('addToFavorites');
 const removeFromFavoritesButton = document.getElementById('removeFromFavorites');
 
+// Obtener el contenedor de comentarios y el formulario de comentarios en tu HTML
+const commentsContainer = document.getElementById('comments-container');
+const commentForm = document.getElementById('commentForm');
+// Obtener la fecha actual en formato ISO (ejemplo: "2023-11-13T12:00:00")
+const fecha = new Date().toISOString();
+
+
 // Agregar una función asincrónica para verificar si el medio está en favoritos
 async function checkIfMediaIsInFavorites() {
   try {
@@ -37,8 +44,51 @@ async function checkIfMediaIsInFavorites() {
   }
 }
 
+// Función para mostrar los comentarios en el contenedor de comentarios
+function mostrarComentarios(comentarios) {
+  if (comentarios.length > 0) {
+    const comentariosHTML = comentarios.map(comment => {
+      const fecha = new Date(comment.fecha);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const fechaFormateada = fecha.toLocaleDateString(undefined, options);
+
+      return `
+        <div class="comment">
+          <p>${comment.comentario}</p>
+          <span>${fechaFormateada} - ${comment.nombre_usuario}</span>
+        </div>
+      `;
+    }).join('');
+
+    commentsContainer.innerHTML = comentariosHTML;
+  } else {
+    // Mostrar un mensaje indicando que no hay comentarios
+    commentsContainer.innerHTML = '<p>No hay comentarios.</p>';
+  }
+}
+
+
+
+// Función para cargar los comentarios al cargar la página
+async function cargarComentarios() {
+  try {
+    const response = await fetch(`obtener-comentarios.php?mediaId=${mediaId}`);
+    if (response.status === 200) {
+      const comentarios = await response.json();
+      mostrarComentarios(comentarios);
+    } else {
+      console.error('Error en la solicitud al servidor para obtener comentarios');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
 // Llamar a la función para verificar si el medio está en favoritos al cargar la página
 window.addEventListener('load', checkIfMediaIsInFavorites);
+
+// Llamar a la función para cargar comentarios al cargar la página
+window.addEventListener('load', cargarComentarios);
 
 // Agregar un evento click al botón "Agregar a Favoritos"
 addToFavoritesButton.addEventListener('click', async function () {
@@ -121,6 +171,57 @@ removeFromFavoritesButton.addEventListener('click', async function () {
     console.error('Error:', error);
   }
 });
+
+// Agregar un evento submit al formulario de comentarios
+commentForm.addEventListener('submit', async function (event) {
+  event.preventDefault();
+
+  const commentText = document.getElementById('commentText').value;
+
+  try {
+    const response = await fetch('agregar-comentario-pelicula.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `mediaId=${mediaId}&commentText=${commentText}&fecha=${fecha}`,
+    });
+    
+
+    if (response.status === 200) {
+      const data = await response.json();
+      if (data.success) {
+        // Comentario agregado con éxito, mostrar el SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Comentario Enviado',
+          text: 'Tu comentario se ha enviado con éxito.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            cargarComentarios(); // Recargar los comentarios después de agregar uno nuevo
+            document.getElementById('commentText').value = ''; // Limpiar el área de texto
+          }
+          cargarComentarios(); // Recargar los comentarios después de agregar uno nuevo
+
+          // Limpiar el contenido del área de texto
+          document.getElementById('commentText').value = '';
+        });
+      } else {
+        // Error al agregar el comentario
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al enviar el comentario. Por favor, inténtalo nuevamente.',
+        });
+      }
+    } else {
+      console.error('Error en la solicitud al servidor');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
 
 
 
