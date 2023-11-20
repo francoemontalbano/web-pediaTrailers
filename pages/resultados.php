@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $url = "https://api.themoviedb.org/3/search/multi?api_key=" . $apiKey . "&query=" . urlencode($searchTerm) . "&language=" . $language;
 
             // Realiza la solicitud a la API de TMDb
-            $response = @file_get_contents($url); // Utilizar "@" para suprimir los mensajes de error
+            $response = @file_get_contents($url); 
 
             if ($response !== false) {
                 $data = json_decode($response, true);
@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     echo "<div class='error-message'>";
                     echo "No se encontraron películas o series para: " . htmlspecialchars($searchTerm);
                     echo "<br>";
-                    echo "Inténtalo nuevamente.";
+                    echo "Intentalo nuevamente.";
                     echo "</div>";
                 }
 

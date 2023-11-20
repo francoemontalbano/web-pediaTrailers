@@ -25,6 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
+    // Verificar si el usuario actual es un usuario invitado
+    if (strpos($userId, 'guest_') !== false) {
+        echo json_encode(['success' => false, 'message' => 'Debe registrarse para usar esta función']);
+        exit;
+    }
+
     $insertQuery = "INSERT INTO comentarios_series (id_usuario, id_serie_api, comentario, fecha) VALUES (?, ?, ?, ?)";
 
     $stmt = $conn->prepare($insertQuery);

@@ -44,6 +44,7 @@ function createGenreButtons(endpoint, mediaType, genreButtons) {
   fetch(`https://api.themoviedb.org/3/genre/${endpoint}/list?api_key=${apiKey}&language=es-ES`)
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       data.genres.forEach(genre => {
         const genreButton = document.createElement('button');
         genreButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-2');

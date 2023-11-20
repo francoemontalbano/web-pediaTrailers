@@ -30,6 +30,14 @@ $stmt->bind_result($nombre_usuario);
 $stmt->fetch();
 $stmt->close();
 
+// Verificar si el usuario actual es un usuario invitado
+if (strpos($nombre_usuario, 'guest_') !== false) {
+  $nombre_usuario = 'Invitado';
+} elseif (empty($nombre_usuario)) {
+  // Si el nombre de usuario está vacío, asignar 'Invitado'
+  $nombre_usuario = 'invitado';
+}
+
 // Cerrar la conexión a la base de datos
 $conn->close();
 ?>
@@ -61,13 +69,13 @@ $conn->close();
           <a class="nav-link text-white mr-2" id="btn-trailers-populares" href="index.php" style="font-size: 16px;">Home</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="proximamente-pelicula.php" style="font-size: 16px;">Top Estrenos</a>
+          <a class="nav-link text-white mr-2" href="proximamente-pelicula.php" style="font-size: 16px;">Top Estrenos</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="ranking.php" style="font-size: 16px;">Ranking</a>
+          <a class="nav-link text-white mr-2" href="ranking.php" style="font-size: 16px;">Ranking</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" id="btn-buscar-generos" href="generos.php" style="font-size: 16px;">Buscar por Géneros</a>
+          <a class="nav-link text-white mr-2" id="btn-buscar-generos" href="generos.php" style="font-size: 16px;">Buscar por Géneros</a>
         </li>
       </ul>
       <form class="form-inline" action="resultados.php" method="GET">
@@ -76,12 +84,24 @@ $conn->close();
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
+          <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>
-        </li>
+        <?php
+        // Verificar si el usuario es un invitado
+        if ($nombre_usuario === 'invitado') {
+          // Si es un invitado, mostrar el botón de Cerrar Sesión como invitado y Registrarse
+          echo '<li class="nav-item">';
+          echo '<a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión de invitado y Loguearse</a>';
+          echo '</li>';
+        } else {
+          // Si no es un invitado, mostrar solo el botón de Cerrar Sesión
+          echo '<li class="nav-item">';
+          echo '<a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>';
+          echo '</li>';
+        }
+        ?>
       </ul>
+
     </div>
   </nav>
 

@@ -149,9 +149,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
             echo '</script>';
           }
         } else {
-          echo '<tr>';
-          echo '<td colspan="2">No tienes películas favoritas.</td>';
-          echo '</tr>';
+          // Modificación para mostrar un mensaje diferente si el usuario es invitado
+          if (strpos($userId, 'guest_') !== false) {
+            echo '<tr>';
+            echo '<td colspan="2">Debe registrarse para utilizar esta función</td>';
+            echo '</tr>';
+          } else {
+            echo '<tr>';
+            echo '<td colspan="2">No tienes películas favoritas.</td>';
+            echo '</tr>';
+          }
         }
         ?>
       </tbody>
@@ -193,9 +200,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
             echo '</script>';
           }
         } else {
-          echo '<tr>';
-          echo '<td colspan="2">No tienes series favoritas.</td>';
-          echo '</tr>';
+          // Modificación para mostrar un mensaje diferente si el usuario es invitado
+          if (strpos($userId, 'guest_') !== false) {
+            echo '<tr>';
+            echo '<td colspan="2">Debe registrarse para utilizar esta función</td>';
+            echo '</tr>';
+          } else {
+            echo '<tr>';
+            echo '<td colspan="2">No tienes series favoritas.</td>';
+            echo '</tr>';
+          }
         }
         ?>
       </tbody>

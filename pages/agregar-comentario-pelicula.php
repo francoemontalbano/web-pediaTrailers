@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $commentText = $_POST['commentText'];
     // Obtener fecha
     $fecha = $_POST['fecha'];
-    
+
     // Insertar el comentario en la tabla de comentarios_peliculas
     $servername = "localhost";
     $username = "root";
@@ -24,6 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $dbname = "pelispedialogin";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Verificar si el usuario actual es un usuario invitado
+    if (strpos($userId, 'guest_') !== false) {
+        echo json_encode(['success' => false, 'message' => 'Debe registrarse para usar esta función']);
+        exit;
+    }
 
     $insertQuery = "INSERT INTO comentarios_peliculas (id_usuario, id_pelicula_api, comentario, fecha) VALUES (?, ?, ?, ?)";
 

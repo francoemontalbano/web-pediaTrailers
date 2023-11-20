@@ -32,6 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // La película ya está en favoritos, enviar una respuesta JSON de error
         echo json_encode(['success' => false, 'message' => 'La película ya está en favoritos']);
     } else {
+        // Verificar si el usuario actual es un usuario invitado
+        if (strpos($userId, 'guest_') !== false) {
+            echo json_encode(['success' => false, 'message' => 'Debe registrarse para usar esta función']);
+            exit;
+        }
+
         // La película no está en favoritos, insertarla
         $insertQuery = "INSERT INTO favoritos (id_usuario, id_pelicula_api) VALUES (?, ?)";
         $stmt = $conn->prepare($insertQuery);

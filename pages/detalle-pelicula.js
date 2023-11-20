@@ -211,7 +211,7 @@ commentForm.addEventListener('submit', async function (event) {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Hubo un error al enviar el comentario. Por favor, inténtalo nuevamente.',
+          text: data.message,
         });
       }
     } else {
