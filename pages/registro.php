@@ -1,17 +1,16 @@
 <?php
-// Conectar a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "pelispedialogin";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Procesar el formulario de registro
+// Proceso el formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST["username"];
   $password = $_POST["password"];
 
-  // Validar los campos del formulario
+  // Valido los campos del formulario
   if (empty($username) || empty($password)) {
     $error_message = "Por favor complete todos los campos.";
   } elseif (strlen($password) < 6 || !preg_match("/[0-9]/", $password)) {
@@ -21,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } elseif (!preg_match("/^[a-zA-Z]+$/", $username)) {
     $error_message = "El nombre de usuario solo puede contener letras.";
   } else {
-    // Verificar que el nombre de usuario no exista en la base de datos
+    // Verifico que el nombre de usuario no exista en la base de datos
     $check_user_query = "SELECT * FROM usuarios WHERE nombre_usuario=?";
     $stmt = $conn->prepare($check_user_query);
     $stmt->bind_param("s", $username);
@@ -30,21 +29,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user_result->num_rows > 0) {
       $error_message = "El nombre de usuario ya existe.";
     } else {
-      // Insertar el nuevo usuario en la tabla "usuarios"
+      // Inserto el nuevo usuario en la tabla "usuarios"
       $insert_user_query = "INSERT INTO usuarios (nombre_usuario) VALUES (?)";
       $stmt = $conn->prepare($insert_user_query);
       $stmt->bind_param("s", $username);
       if ($stmt->execute() === TRUE) {
-        // Obtener el ID del usuario recién creado
+        // Obtengo el ID del usuario recién creado
         $id_usuario = $stmt->insert_id;
 
-        // Insertar la contraseña del usuario en la tabla "contraseñas"
+        // Inserto la contraseña del usuario en la tabla "contraseñas"
         $insert_password_query = "INSERT INTO contraseñas (id_usuario, contraseña) VALUES (?, ?)";
         $stmt = $conn->prepare($insert_password_query);
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bind_param("is", $id_usuario, $hashed_password);
         if ($stmt->execute() === TRUE) {
-          // Mostrar el modal de registro exitoso
+          // Muestro el modal de registro exitoso
           echo "<script>
                   window.addEventListener('DOMContentLoaded', function() {
                     $('#successModal').modal('show');
@@ -60,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 
-// Mostrar el formulario de registro
+// Muestro el formulario de registro
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -70,12 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/registro.css">
   <link rel="icon" href="../img/Icono.png">
+  <title>Registrarse</title>
 </head>
 <body>
   <div class="container">
     <div class="caja-registro">
       <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <h1>Registro</h1><br>
+        <br><h1>Registro</h1><br>
         <?php if (isset($error_message)) { ?>
           <script>
             window.addEventListener('DOMContentLoaded', function() {
@@ -85,8 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
 
         Nombre de usuario: <input type="text" name="username" autofocus><br>
-        Contraseña: <input type="password" name="password"><br>
-        <input type="submit" value="Aceptar"> <br>
+        Contraseña: <input type="password" name="password">
+        <input type="submit" value="Registrarse"> <br>
         <br><p>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
 
         <!-- Modal de Bootstrap para mostrar el mensaje de error -->

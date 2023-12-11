@@ -1,10 +1,21 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+// Verifico si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-  header('Location: login.php');
-  exit;
+    header('Location: login.php');
+    exit;
+}
+
+// Verifico si existe la cookie de usuario invitado
+if (isset($_COOKIE['usuario_invitado'])) {
+    // Si es usuario invitado, mostrar el botón con el texto adecuado
+    $cerrarSesionTexto = 'Cerrar sesión de Invitado e Iniciar sesión';
+    $cerrarSesionEnlace = 'login.php'; 
+} else {
+    // Si no es usuario invitado, mostrar el botón con el texto estándar
+    $cerrarSesionTexto = 'Cerrar Sesión';
+    $cerrarSesionEnlace = 'cerrarsesion.php';
 }
 ?>
 
@@ -54,7 +65,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
           <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>
+          <a class="nav-link text-white" href="<?php echo $cerrarSesionEnlace; ?>" style="font-size: 16px;"><?php echo $cerrarSesionTexto; ?></a>
         </li>
       </ul>
     </div>

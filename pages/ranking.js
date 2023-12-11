@@ -4,7 +4,7 @@ const showTopSeriesButton = document.getElementById('show-top-series-button');
 showTopMoviesButton.addEventListener('click', function () {
   document.getElementById('movie-list').innerHTML = '';
   document.getElementById('series-list').innerHTML = '';
-  loadTopMedia('movie', 'movies'); // Cambia 'tv' a 'movie' aquí
+  loadTopMedia('movie', 'movies');
 });
 
 showTopSeriesButton.addEventListener('click', function () {
@@ -15,7 +15,7 @@ showTopSeriesButton.addEventListener('click', function () {
 
 function loadTopMedia(endpoint, mediaType) {
   const apiKey = '5f4e3a08b9be2e852b443b4cb14f45f7';
-  const apiUrl = `https://api.themoviedb.org/3/${endpoint}/top_rated?api_key=${apiKey}&language=es-ES&page=1`; // Cambia 'mediaType' a 'endpoint' aquí
+  const apiUrl = `https://api.themoviedb.org/3/${endpoint}/top_rated?api_key=${apiKey}&language=es-ES&page=1`;
   const mediaList = mediaType === 'movies' ? document.getElementById('movie-list') : document.getElementById('series-list');
 
   fetch(apiUrl)

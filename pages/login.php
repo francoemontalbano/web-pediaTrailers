@@ -1,5 +1,4 @@
 <?php
-// Conectar a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -20,16 +19,16 @@ if (session_status() == PHP_SESSION_NONE) {
 session_unset();
 session_destroy();
 
-// Procesar el formulario de inicio de sesión
+// Proceso el formulario de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Validar los campos del formulario
+    // Valido los campos del formulario
     if (empty($username) || empty($password)) {
         $error_message = "Por favor complete todos los campos.";
     } else {
-        // Buscar el nombre de usuario en la base de datos
+        // Busco el nombre de usuario en la base de datos
         $check_user_query = "SELECT usuarios.id, contraseñas.contraseña FROM usuarios INNER JOIN contraseñas ON usuarios.id = contraseñas.id_usuario WHERE usuarios.nombre_usuario=?";
         $stmt = $conn->prepare($check_user_query);
         $stmt->bind_param("s", $username);
@@ -38,15 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user_result->num_rows == 0) {
             $error_message = "El nombre de usuario no existe.";
         } else {
-            // Verificar la contraseña del usuario
+            // Verifico la contraseña del usuario
             $user_row = $user_result->fetch_assoc();
             if (password_verify($password, $user_row["contraseña"])) {
-                // Limpiar cualquier sesión existente antes de iniciar una nueva
+                // Limpio cualquier sesión existente antes de iniciar una nueva
                 session_unset();
                 session_destroy();
                 session_start();
 
-                // Eliminar la cookie de usuario invitado si existe
+                // Elimino la cookie de usuario invitado si existe
                 if (isset($_COOKIE['usuario_invitado'])) {
                     unset($_COOKIE['usuario_invitado']);
                     setcookie('usuario_invitado', null, -1, '/');
@@ -64,9 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Manejar el inicio de sesión como invitado
+// Manejo el inicio de sesión como invitado
 if (isset($_POST["iniciar_sesion_invitado"])) {
-    // Limpiar cualquier sesión existente antes de iniciar una nueva
+    // Limpio cualquier sesión existente antes de iniciar una nueva
     session_unset();
     session_destroy();
     session_start();
@@ -77,14 +76,14 @@ if (isset($_POST["iniciar_sesion_invitado"])) {
         setcookie('usuario_invitado', null, -1, '/');
     }
 
-    // Generar un identificador único para el usuario invitado
+    // Genero un identificador unico para el usuario invitado
     $usuario_invitado_id = uniqid('guest_', true);
 
     // Iniciar sesión como invitado
     $_SESSION["id_usuario"] = $usuario_invitado_id;
     $_SESSION["loggedin"] = true; // Variable para verificar inicio de sesión
 
-    // Establecer la cookie con el identificador del usuario invitado
+    // Establezco la cookie con el identificador del usuario invitado
     setcookie("usuario_invitado", $usuario_invitado_id, time() + 3600, "/");
 
     // Redirigir al inicio
@@ -100,12 +99,13 @@ if (isset($_POST["iniciar_sesion_invitado"])) {
   <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="icon" href="../img/Icono.png">
+  <title>Iniciar sesión</title>
 </head>
 <body>
   <div class="container">
     <div class="caja-registro">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <h1>Iniciar sesión</h1>
+        <br><h1>Iniciar sesión</h1>
         <?php if (isset($error_message)) { ?>
           <script>
             window.addEventListener('DOMContentLoaded', function() {
@@ -114,15 +114,15 @@ if (isset($_POST["iniciar_sesion_invitado"])) {
           </script>
         <?php } ?>
         Nombre de usuario: <input type="text" name="username"><br>
-        Contraseña: <input type="password" name="password"><br>
-        <input type="submit" value="Aceptar"><br>
-        <input type="submit" name="iniciar_sesion_invitado" value="Iniciar Sesión como Invitado"><br>
-        <br><p>¿No tienes una cuenta? <a href="registro.php">Regístrate aquí</a></p>
+        Contraseña: <input type="password" name="password">
+        <input type="submit" value="Iniciar sesión"><br>
+        <p>¿No tienes una cuenta? <a href="registro.php" class="guest-link">Regístrate aquí</a>
+         <button type="submit" class="btn btn-success btn-invitar" name="iniciar_sesion_invitado">Ingresar como Invitado</button>
+        </p>
       </form>
     </div>
   </div>
 
-  <!-- Modal de Bootstrap para mostrar el mensaje de error -->
   <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -142,5 +142,9 @@ if (isset($_POST["iniciar_sesion_invitado"])) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <footer class="bg-custom text-center text-white mt-4 p-3">
+    <img src="../img/Icono.png" width="30" height="30" class="mr-2">
+    pediaTrailers &copy; <?php echo date("Y"); ?>
+  </footer>
 </body>
 </html>

@@ -1,16 +1,14 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+// Verifico si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   header('Location: login.php');
   exit;
 }
 
-// Obtener el ID de usuario de la sesión
 $id_usuario = $_SESSION['id_usuario'];
 
-// Conectar a la base de datos
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -21,7 +19,6 @@ if ($conn->connect_error) {
   die("Error de conexión: " . $conn->connect_error);
 }
 
-// Consulta para obtener el nombre de usuario
 $consulta_nombre_usuario = "SELECT nombre_usuario FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($consulta_nombre_usuario);
 $stmt->bind_param("i", $id_usuario);
@@ -30,7 +27,7 @@ $stmt->bind_result($nombre_usuario);
 $stmt->fetch();
 $stmt->close();
 
-// Verificar si el usuario actual es un usuario invitado
+// Verifico si el usuario actual es un usuario invitado
 if (strpos($nombre_usuario, 'guest_') !== false) {
   $nombre_usuario = 'Invitado';
 } elseif (empty($nombre_usuario)) {
@@ -38,7 +35,6 @@ if (strpos($nombre_usuario, 'guest_') !== false) {
   $nombre_usuario = 'invitado';
 }
 
-// Cerrar la conexión a la base de datos
 $conn->close();
 ?>
 
@@ -87,28 +83,23 @@ $conn->close();
           <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
         <?php
-        // Verificar si el usuario es un invitado
         if ($nombre_usuario === 'invitado') {
-          // Si es un invitado, mostrar el botón de Cerrar Sesión como invitado y Registrarse
           echo '<li class="nav-item">';
-          echo '<a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión de invitado y Loguearse</a>';
+          echo '<a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar sesión de invitado e Iniciar sesión</a>';
           echo '</li>';
         } else {
-          // Si no es un invitado, mostrar solo el botón de Cerrar Sesión
           echo '<li class="nav-item">';
           echo '<a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>';
           echo '</li>';
         }
         ?>
       </ul>
-
     </div>
   </nav>
 
   <div class="container my-4">
     <br><br>
-    <!-- Agregar el mensaje de bienvenida -->
-    <h1 class="text-center mb-4">¡Que alegria verte por aquí, <?php echo $nombre_usuario; ?>!</h1>
+    <h1 class="bienvenida-texto">¡Que alegría verte por aquí, <strong><?php echo $nombre_usuario; ?></strong>!</h1>
     <h1 class="text-center mb-4">Te recomendamos...</h1><br><br>
     <div id="movie-carousel" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner" id="movie-posters">

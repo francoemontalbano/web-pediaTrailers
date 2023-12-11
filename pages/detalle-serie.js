@@ -1,19 +1,19 @@
-// Obtener el ID de la serie de la URL
+// Obtengo el ID de la serie de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const mediaId = urlParams.get('id');
 const mediaType = urlParams.get('type'); // Agregar un parámetro "type" a la URL
 
-// Obtener los elementos del botón "Agregar a Favoritos" y "Eliminar de Favoritos" en tu HTML
+// Obtengo los elementos del botón "Agregar a Favoritos" y "Eliminar de Favoritos" en tu HTML
 const addToFavoritesButton = document.getElementById('addToFavorites');
 const removeFromFavoritesButton = document.getElementById('removeFromFavorites');
 
-// Obtener el contenedor de comentarios y el formulario de comentarios en tu HTML
+// Obtengo el contenedor de comentarios y el formulario de comentarios en tu HTML
 const commentsContainer = document.getElementById('comments-container');
 const commentForm = document.getElementById('commentForm');
-// Obtener la fecha actual en formato ISO (ejemplo: "2023-11-13T12:00:00")
+// Obtengo la fecha actual en formato ISO (ejemplo: "2023-11-13T12:00:00")
 const fecha = new Date().toISOString();
 
-// Agregar una función asincrónica para verificar si la serie está en favoritos
+// Agrego una función asincrónica para verificar si la serie está en favoritos
 async function checkIfMediaIsInFavorites() {
   try {
     const response = await fetch('verificar-favoritos-series.php', {
@@ -43,7 +43,7 @@ async function checkIfMediaIsInFavorites() {
   }
 }
 
-// Llamar a la función para verificar si la serie está en favoritos al cargar la página
+// Llamo a la función para verificar si la serie está en favoritos al cargar la página
 window.addEventListener('load', checkIfMediaIsInFavorites);
 
 // Función para mostrar los comentarios en el contenedor de comentarios
@@ -84,10 +84,10 @@ async function cargarComentarios() {
   }
 }
 
-// Llamar a la función para cargar comentarios al cargar la página
+// Llamo a la función para cargar comentarios al cargar la página
 window.addEventListener('load', cargarComentarios);
 
-// Agregar un evento click al botón "Agregar a Favoritos"
+// Agrego un evento click al botón "Agregar a Favoritos"
 addToFavoritesButton.addEventListener('click', async function () {
   try {
     const response = await fetch('favoritos-serie.php', {
@@ -128,7 +128,7 @@ addToFavoritesButton.addEventListener('click', async function () {
   }
 });
 
-// Agregar un evento click al botón "Eliminar de Favoritos"
+// Agrego un evento click al botón "Eliminar de Favoritos"
 removeFromFavoritesButton.addEventListener('click', async function () {
   try {
     const response = await fetch('eliminar-favoritos-serie.php', {
@@ -169,7 +169,7 @@ removeFromFavoritesButton.addEventListener('click', async function () {
   }
 });
 
-// Agregar un evento submit al formulario de comentarios
+// Agrego un evento submit al formulario de comentarios
 commentForm.addEventListener('submit', async function (event) {
   event.preventDefault();
 
@@ -194,8 +194,8 @@ commentForm.addEventListener('submit', async function (event) {
           text: 'Tu comentario se ha enviado con éxito.',
         }).then((result) => {
           if (result.isConfirmed) {
-            cargarComentarios(); // Recargar los comentarios después de agregar uno nuevo
-            document.getElementById('commentText').value = ''; // Limpiar el área de texto
+            cargarComentarios(); 
+            document.getElementById('commentText').value = ''; 
           }
         });
       } else {
@@ -205,6 +205,7 @@ commentForm.addEventListener('submit', async function (event) {
           title: 'Error',
           text: data.message,
         });
+        document.getElementById('commentText').value = ''; 
       }
     } else {
       console.error('Error en la solicitud al servidor');
@@ -214,13 +215,13 @@ commentForm.addEventListener('submit', async function (event) {
   }
 });
 
-// API Key proporcionada por themoviedb
+
 const apiKey = '5f4e3a08b9be2e852b443b4cb14f45f7';
 
-// URL de la API de themoviedb para obtener los detalles de la serie
+
 const seriesUrl = `https://api.themoviedb.org/3/tv/${mediaId}?api_key=${apiKey}&language=es-ES`;
 
-// Función para obtener las plataformas de transmisión para la serie en Argentina
+// Función para obtener las plataformas de transmisión 
 function getStreamingPlatformsInArgentina(mediaType, mediaId, apiKey) {
   const streamingUrl = `https://api.themoviedb.org/3/${mediaType}/${mediaId}/watch/providers?api_key=${apiKey}&region=AR&language=es-ES`;
   return fetch(streamingUrl)
@@ -232,10 +233,10 @@ function getStreamingPlatformsInArgentina(mediaType, mediaId, apiKey) {
 
 function showNoPlatformsMessage() {
   const noPlatformsMessage = document.getElementById('no-series-platforms-message');
-  noPlatformsMessage.style.display = 'block'; // Muestra el mensaje
+  noPlatformsMessage.style.display = 'block'; 
 }
 
-// Realiza la solicitud a la API de themoviedb para obtener los detalles de la serie
+
 fetch(seriesUrl)
   .then(response => response.json())
   .then(mediaData => {
@@ -249,7 +250,7 @@ fetch(seriesUrl)
     const seriesPlatformsElement = document.getElementById('series-platforms');
 
     // Se encontró una serie válida, mostrar la información de la serie
-    // Muestra el título y la sinopsis de la serie
+    // Muestro el título y la sinopsis de la serie
     if (mediaData.name) {
       seriesTitleElement.textContent = mediaData.name;
     } else {
@@ -261,11 +262,11 @@ fetch(seriesUrl)
     } else {
       const noOverviewMessage = document.createElement('p');
       noOverviewMessage.textContent = 'No se encontró la sinopsis de la serie.';
-      noOverviewMessage.classList.add('no-overview-message'); // Agrega la clase al elemento
+      noOverviewMessage.classList.add('no-overview-message'); 
       seriesOverviewElement.appendChild(noOverviewMessage);
     }
 
-    // Muestra el póster de la serie con su año de lanzamiento
+    // Muestro el póster de la serie con su año de lanzamiento
     const seriesPosterElement = document.createElement('img');
     seriesPosterElement.alt = mediaData.name;
 
@@ -283,51 +284,51 @@ fetch(seriesUrl)
     seriesTitleElement.appendChild(yearElement);
 
 
-    // Muestra los géneros de la serie
+    // Muestro los géneros de la serie
     if (mediaData.genres && mediaData.genres.length > 0) {
       const genres = mediaData.genres.map(genre => genre.name);
       seriesGenresElement.textContent = `${genres.join(', ')}`;
     } else {
       const noGenresMessage = document.createElement('p');
       noGenresMessage.textContent = 'No se encontraron géneros para la serie.';
-      noGenresMessage.classList.add('no-genres-message'); // Agrega la clase al elemento
+      noGenresMessage.classList.add('no-genres-message'); 
       seriesGenresElement.appendChild(noGenresMessage);
     }
 
-    // Obtén el reparto de la serie
+    // Obtengo el reparto de la serie
     const castUrl = `https://api.themoviedb.org/3/tv/${mediaId}/credits?api_key=${apiKey}`;
     fetch(castUrl)
       .then(response => response.json())
       .then(castData => {
         if (castData.cast && castData.cast.length > 0) {
-          // Recorrer los primeros 8 miembros del reparto y mostrar sus fotos y nombres
+          // Recorro los primeros 8 miembros del reparto y mostrar sus fotos y nombres
           const castMembers = castData.cast.slice(0, 8);
 
-          // Crear un contenedor para mostrar las fotos y nombres de los actores
+          // Creo un contenedor para mostrar las fotos y nombres de los actores
           const castContainer = document.createElement('div');
           castContainer.classList.add('cast-container');
 
           castMembers.forEach(member => {
-            // Crear un contenedor para cada actor
+            // Creo un contenedor para cada actor
             const actorContainer = document.createElement('div');
             actorContainer.classList.add('actor-container');
 
-            // Crear un elemento de imagen para mostrar la foto del actor
+            // Creo un elemento de imagen para mostrar la foto del actor
             const actorImage = document.createElement('img');
             actorImage.src = `https://image.tmdb.org/t/p/w200${member.profile_path}`; // Ajusta el tamaño de la imagen según tus necesidades
             actorImage.alt = member.name;
             actorContainer.appendChild(actorImage);
 
-            // Crear un elemento de texto para mostrar el nombre del actor
+            // Creo un elemento de texto para mostrar el nombre del actor
             const actorName = document.createElement('p');
             actorName.textContent = member.name;
             actorContainer.appendChild(actorName);
 
-            // Agregar el contenedor del actor al contenedor principal
+            // Agrego el contenedor del actor al contenedor principal
             castContainer.appendChild(actorContainer);
           });
 
-          // Agregar el contenedor del reparto al elemento correspondiente en el DOM
+          // Agrego el contenedor del reparto al elemento correspondiente en el DOM
           seriesCastElement.appendChild(castContainer);
         } else {
           const noCastMessage = document.createElement('p');
@@ -337,13 +338,13 @@ fetch(seriesUrl)
         }
       });
 
-    // Obtén las imágenes de la serie
+    // Obtengo las imágenes de la serie
     const imagesUrl = `https://api.themoviedb.org/3/tv/${mediaId}/images?api_key=${apiKey}`;
     fetch(imagesUrl)
       .then(response => response.json())
       .then(imagesData => {
         if (imagesData.backdrops && imagesData.backdrops.length > 0) {
-          // Recorre las primeras 3 imágenes y muestra su URL
+          // Recorro las primeras 3 imágenes y muestra su URL
           const images = imagesData.backdrops.slice(0, 3);
           const imageUrls = images.map(image => `https://image.tmdb.org/t/p/w500${image.file_path}`);
           imageUrls.forEach(url => {
@@ -363,13 +364,13 @@ fetch(seriesUrl)
     fetch(videosUrl)
       .then(response => response.json())
       .then(videosData => {
-        // Encuentra el tráiler en inglés
+        // Encuentro el tráiler en inglés
         const trailer = videosData.results.find(video => video.type === 'Trailer' && video.site === 'YouTube' && video.iso_639_1 === 'en');
         if (trailer) {
-          // Obtiene el identificador del video del tráiler
+          // Obtengo el identificador del video del tráiler
           const videoId = trailer.key;
 
-          // Crea el elemento del iframe para mostrar el tráiler en inglés con la opción de subtítulos en español
+          // Creo el elemento del iframe para mostrar el tráiler en inglés con la opción de subtítulos en español
           const trailerElement = document.createElement('iframe');
           trailerElement.src = `https://www.youtube.com/embed/${videoId}?rel=0&cc_load_policy=1&cc_lang_pref=es`; // Subtítulos en español
           trailerElement.title = 'Trailer';
@@ -384,27 +385,27 @@ fetch(seriesUrl)
       });
 
 
-    // Obtén las plataformas de transmisión para la serie en Argentina y muéstralas
+    // Obtengo las plataformas de transmisión para la serie en Argentina y muéstralas
     getStreamingPlatformsInArgentina('tv', mediaId, apiKey)
       .then(platforms => {
         if (platforms && platforms.AR) {
           const streamingPlatforms = platforms.AR.flatrate;
           if (streamingPlatforms && streamingPlatforms.length > 0) {
             const platformNames = streamingPlatforms.map(platform => platform.provider_name);
-            seriesPlatformsElement.textContent = `Plataformas de transmisión en Argentina: ${platformNames.join(', ')}`;
+            seriesPlatformsElement.textContent = `Plataformas de transmisión: ${platformNames.join(', ')}`;
           } else {
-            // Muestra un mensaje indicando que no hay datos disponibles
+            // Muestro un mensaje indicando que no hay datos disponibles
             seriesPlatformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
           }
         } else {
-          // Muestra un mensaje indicando que no hay datos disponibles
+          // Muestro un mensaje indicando que no hay datos disponibles
           seriesPlatformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
         }
       })
       .catch(error => {
         // Manejo de errores en caso de que la solicitud falle
         console.error('Error:', error);
-        // Muestra un mensaje indicando que no hay datos disponibles
+        // Muestro un mensaje indicando que no hay datos disponibles
         seriesPlatformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
       });
   })

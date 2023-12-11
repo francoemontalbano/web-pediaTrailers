@@ -1,10 +1,21 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+// Verifico si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.php');
     exit;
+}
+
+// Verifico si existe la cookie de usuario invitado
+if (isset($_COOKIE['usuario_invitado'])) {
+    // Si es usuario invitado, mostrar el botón con el texto adecuado
+    $cerrarSesionTexto = 'Cerrar sesión de Invitado e Iniciar sesión';
+    $cerrarSesionEnlace = 'login.php'; 
+} else {
+    // Si no es usuario invitado, mostrar el botón con el texto estándar
+    $cerrarSesionTexto = 'Cerrar Sesión';
+    $cerrarSesionEnlace = 'cerrarsesion.php';
 }
 ?>
 
@@ -54,7 +65,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>
+          <a class="nav-link text-white" href="<?php echo $cerrarSesionEnlace; ?>" style="font-size: 16px;"><?php echo $cerrarSesionTexto; ?></a>
         </li>
       </ul>
     </div>
@@ -63,23 +74,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </html>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Verificar si se ha enviado un término de búsqueda
+    // Verifico si se ha enviado un término de búsqueda
     if (isset($_GET["searchTerm"])) {
         $searchTerm = $_GET["searchTerm"];
 
-        // Verificar si el término de búsqueda no está vacío
+        // Verifico si el término de búsqueda no está vacío
         if (!empty($searchTerm)) {
             $apiKey = "5f4e3a08b9be2e852b443b4cb14f45f7";
             $language = "es"; // Establece el lenguaje en español
             $url = "https://api.themoviedb.org/3/search/multi?api_key=" . $apiKey . "&query=" . urlencode($searchTerm) . "&language=" . $language;
 
-            // Realiza la solicitud a la API de TMDb
+            // Realizo la solicitud a la API de TMDb
             $response = @file_get_contents($url); 
 
             if ($response !== false) {
                 $data = json_decode($response, true);
 
-                // Verificar si se encontraron resultados
+                // Verifico si se encontraron resultados
                 if (!empty($data["results"])) {
                     echo "<div class='cartelera'>";
                     foreach ($data["results"] as $result) {
@@ -103,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     }
                     echo "</div>";
                 } else {
-                    // Mostrar mensaje de error si no se encontraron resultados
+                    // Muestro mensaje de error si no se encontraron resultados
                     echo "<div class='error-message'>";
                     echo "No se encontraron películas o series para: " . htmlspecialchars($searchTerm);
                     echo "<br>";
@@ -111,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     echo "</div>";
                 }
 
-                exit(); // Finaliza la ejecución del script
+                exit(); 
             }
         }
     }

@@ -1,9 +1,21 @@
 <?php
 session_start();
 
+// Verifico si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   header('Location: login.php');
   exit;
+}
+
+// Verifico si existe la cookie de usuario invitado
+if (isset($_COOKIE['usuario_invitado'])) {
+  // Si es usuario invitado, mostrar el botón con el texto adecuado
+  $cerrarSesionTexto = 'Cerrar sesión de Invitado e Iniciar sesión';
+  $cerrarSesionEnlace = 'login.php';
+} else {
+  // Si no es usuario invitado, mostrar el botón con el texto estándar
+  $cerrarSesionTexto = 'Cerrar Sesión';
+  $cerrarSesionEnlace = 'cerrarsesion.php';
 }
 
 $userId = $_SESSION['id_usuario'];
@@ -21,10 +33,10 @@ if ($conn->connect_error) {
   die("La conexión a la base de datos falló: " . $conn->connect_error);
 }
 
-// Función para obtener detalles de películas y series de forma asíncrona
+
 function getMediaDetails($mediaId, $mediaType)
 {
-  $apiKey = '5f4e3a08b9be2e852b443b4cb14f45f7'; // Reemplaza con tu API key de themoviedb
+  $apiKey = '5f4e3a08b9be2e852b443b4cb14f45f7';
   if ($mediaType === 'pelicula') {
     $mediaUrl = "https://api.themoviedb.org/3/movie/$mediaId?api_key=$apiKey&language=es-ES";
   } elseif ($mediaType === 'serie') {
@@ -35,7 +47,7 @@ function getMediaDetails($mediaId, $mediaType)
   $mediaDetails = json_decode($mediaData, true);
   return $mediaDetails;
 }
-
+//Verifico si la solicitud al servidor es POST
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($_POST['mediaType'])) {
   $mediaId = $_POST['mediaId'];
   $mediaType = $_POST['mediaType'];
@@ -50,10 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
   $stmt->bind_param("ii", $userId, $mediaId);
 
   if ($stmt->execute()) {
-    echo "Eliminado con éxito"; // Puedes cambiar este mensaje de respuesta si lo deseas
+    echo "Eliminado con éxito"; // 
     exit;
   } else {
-    echo "Error al eliminar"; // Puedes cambiar este mensaje de respuesta si lo deseas
+    echo "Error al eliminar"; // 
     exit;
   }
 }
@@ -69,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="../css/favoritos.css">
   <link rel="icon" href="../img/Icono.png">
 
@@ -106,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
           <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>
+          <a class="nav-link text-white" href="<?php echo $cerrarSesionEnlace; ?>" style="font-size: 16px;"><?php echo $cerrarSesionTexto; ?></a>
         </li>
       </ul>
     </div>
@@ -133,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
           while ($row = $result->fetch_assoc()) {
             $movieId = $row['id_pelicula_api'];
 
-            // Obtener los detalles de la película de forma asíncrona utilizando JavaScript
+            // Obtengo los detalles de la película
             echo '<tr>';
             echo '<td id="movieTitle_' . $movieId . '">Cargando...</td>';
             echo '<td>';
@@ -149,10 +162,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
             echo '</script>';
           }
         } else {
-          // Modificación para mostrar un mensaje diferente si el usuario es invitado
+          // Modifico para mostrar un mensaje diferente si el usuario es invitado
           if (strpos($userId, 'guest_') !== false) {
             echo '<tr>';
-            echo '<td colspan="2">Debe registrarse para utilizar esta función</td>';
+            echo '<td colspan="2" style="text-align: center; font-weight: bold; color: red;">Debe registrarse para utilizar esta función</td>';
             echo '</tr>';
           } else {
             echo '<tr>';
@@ -184,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
           while ($row = $result->fetch_assoc()) {
             $seriesId = $row['id_serie_api'];
 
-            // Obtener los detalles de la serie de forma asíncrona utilizando JavaScript
+            // Obtengo los detalles de la serie
             echo '<tr>';
             echo '<td id="seriesTitle_' . $seriesId . '">Cargando...</td>';
             echo '<td>';
@@ -200,10 +213,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
             echo '</script>';
           }
         } else {
-          // Modificación para mostrar un mensaje diferente si el usuario es invitado
           if (strpos($userId, 'guest_') !== false) {
             echo '<tr>';
-            echo '<td colspan="2">Debe registrarse para utilizar esta función</td>';
+            echo '<td colspan="2" style="text-align: center; font-weight: bold; color: red;">Debe registrarse para utilizar esta función</td>';
             echo '</tr>';
           } else {
             echo '<tr>';
@@ -211,84 +223,240 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['mediaId']) && isset($
             echo '</tr>';
           }
         }
+
+        // Función para obtener estadísticas de géneros para películas del usuario actual en porcentaje
+        function obtenerEstadisticasGenerosPeliculas($userId, $conn)
+        {
+          $query = "SELECT genero, COUNT(*) as cantidad FROM favoritos WHERE id_usuario = ? GROUP BY genero";
+          $stmt = $conn->prepare($query);
+          $stmt->bind_param("s", $userId);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          $totalPeliculas = 0;
+
+          while ($row = $result->fetch_assoc()) {
+            $totalPeliculas += $row['cantidad'];
+          }
+
+          $estadisticasGeneros = [];
+
+          // Calculo porcentajes redondeados
+          $result->data_seek(0); // Reiniciar puntero del resultado
+          while ($row = $result->fetch_assoc()) {
+            $genero = $row['genero'];
+            $cantidad = $row['cantidad'];
+            $porcentaje = round(($cantidad / $totalPeliculas) * 100, 2) . "%";
+            $estadisticasGeneros[$genero] = $porcentaje;
+          }
+
+          $stmt->close();
+
+          return $estadisticasGeneros;
+        }
+
+
+        // Obtengo estadísticas de géneros de películas para el usuario actual
+        $userId = $_SESSION['id_usuario'];
+        $estadisticasPeliculas = obtenerEstadisticasGenerosPeliculas($userId, $conn);
+
+
+
+        // Función para obtener estadísticas de géneros para series del usuario actual en porcentaje
+        function obtenerEstadisticasGenerosSeries($userId, $conn)
+        {
+          $query = "SELECT genero, COUNT(*) as cantidad FROM favoritos_series WHERE id_usuario = ? GROUP BY genero";
+          $stmt = $conn->prepare($query);
+          $stmt->bind_param("s", $userId);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          $totalSeries = 0;
+
+          while ($row = $result->fetch_assoc()) {
+            $totalSeries += $row['cantidad'];
+          }
+
+          $estadisticasGeneros = [];
+
+          // Calculo porcentajes redondeados
+          $result->data_seek(0); 
+          while ($row = $result->fetch_assoc()) {
+            $genero = $row['genero'];
+            $cantidad = $row['cantidad'];
+            $porcentaje = round(($cantidad / $totalSeries) * 100, 2) . "%";
+            $estadisticasGeneros[$genero] = $porcentaje;
+          }
+
+          $stmt->close();
+
+          return $estadisticasGeneros;
+        }
+
+        // Obtengo estadísticas de géneros de series para el usuario actual
+        $userId = $_SESSION['id_usuario'];
+        $estadisticasSeries = obtenerEstadisticasGenerosSeries($userId, $conn);
+
+
+
         ?>
       </tbody>
     </table>
-  </div>
+    <div class="container mt-5">
+  <?php
+  if (isset($_COOKIE['usuario_invitado'])) {
+    echo '<h1>Porcentaje de Géneros en tus listas:</h1>';
+    echo '<div class="alert alert-danger text-center mt-3" role="alert" style="font-weight: bold; color: red; background-color: white;">Debe registrarse para utilizar esta función</div>';
+    echo '</div>';
+  } else {
+    echo '<div class="contenedor-graficos">';
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
-    function eliminarPelicula(movieId) {
-      // Mostrar SweetAlert de confirmación
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¡La película será eliminada de tus favoritos!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar' // Aquí especificamos el texto para el botón de cancelar
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Si el usuario confirma, realiza la eliminación
-          realizarEliminacion(movieId, 'pelicula');
-        }
-      });
+    if (!empty($estadisticasPeliculas) || !empty($estadisticasSeries)) {
+      echo '<h1>Porcentaje de Géneros en tus listas:</h1>';
     }
 
-    function eliminarSerie(seriesId) {
-      // Mostrar SweetAlert de confirmación
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¡La serie será eliminada de tus favoritos!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar' // Aquí especificamos el texto para el botón de cancelar
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Si el usuario confirma, realiza la eliminación
-          realizarEliminacion(seriesId, 'serie');
-        }
-      });
+    if (!empty($estadisticasPeliculas)) {
+      echo '<div class="grafico-container">';
+      echo '<h2>Películas:</h2>';
+      echo '<div id="estadisticasPeliculas"></div>';
+      echo '</div>';
     }
 
-    function realizarEliminacion(mediaId, mediaType) {
-      // Realizar la eliminación utilizando AJAX
-      $.ajax({
-        type: 'POST',
-        url: 'misfavoritos.php',
-        data: {
-          mediaId: mediaId,
-          mediaType: mediaType
-        },
-        success: function(data) {
-          if (data === 'Eliminado con éxito') {
-            // Mostrar SweetAlert de éxito
-            Swal.fire({
-              title: '¡Eliminado!',
-              text: 'El elemento ha sido eliminado con éxito.',
-              icon: 'success'
-            }).then(() => {
-              // Actualizar la tabla después de eliminar
-              location.reload();
-            });
-          } else {
-            // Mostrar SweetAlert de error
-            Swal.fire({
-              title: 'Error',
-              text: 'Hubo un error al eliminar el elemento. Por favor, inténtalo de nuevo.',
-              icon: 'error'
-            });
+    if (!empty($estadisticasSeries)) {
+      echo '<div class="grafico-container">';
+      echo '<h2>Series:</h2>';
+      echo '<div id="estadisticasSeries"></div>';
+      echo '</div>';
+    }
+
+    echo '</div>';
+  }
+  ?>
+</div>
+
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          <?php
+          // Verifico si hay estadísticas de películas y muestra el gráfico correspondiente
+          if (!empty($estadisticasPeliculas)) {
+            echo 'mostrarGraficoPastel(' . json_encode($estadisticasPeliculas) . ', "estadisticasPeliculas", "Estadísticas de Géneros de Películas");';
           }
+
+          // Verifico si hay estadísticas de series y muestra el gráfico correspondiente
+          if (!empty($estadisticasSeries)) {
+            echo 'mostrarGraficoPastel(' . json_encode($estadisticasSeries) . ', "estadisticasSeries", "Estadísticas de Géneros de Series");';
+          }
+          ?>
+        });
+
+
+        // Función para mostrar gráficos de pastel
+        function mostrarGraficoPastel(estadisticas, contenedorId, titulo) {
+          var contenedor = document.getElementById(contenedorId);
+          var canvas = document.createElement('canvas');
+          canvas.className = 'grafico-pastel';
+          contenedor.appendChild(canvas);
+
+          var ctx = canvas.getContext('2d');
+          var generos = Object.keys(estadisticas);
+          var porcentajes = Object.values(estadisticas).map(parseFloat); // Convertir cadenas a valores numéricos
+
+          var data = {
+            labels: generos,
+            datasets: [{
+              data: porcentajes,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+              ],
+            }],
+          };
+
+          var options = {
+            title: {
+              display: true,
+              text: titulo,
+            },
+          };
+
+          new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options,
+          });
         }
-      });
-    }
-  </script>
+
+
+        function eliminarPelicula(movieId) {
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡La película será eliminada de tus favoritos!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              realizarEliminacion(movieId, 'pelicula');
+            }
+          });
+        }
+
+        function eliminarSerie(seriesId) {
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¡La serie será eliminada de tus favoritos!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              realizarEliminacion(seriesId, 'serie');
+            }
+          });
+        }
+
+        function realizarEliminacion(mediaId, mediaType) {
+          $.ajax({
+            type: 'POST',
+            url: 'misfavoritos.php',
+            data: {
+              mediaId: mediaId,
+              mediaType: mediaType
+            },
+            success: function(data) {
+              if (data === 'Eliminado con éxito') {
+                Swal.fire({
+                  title: '¡Eliminado!',
+                  text: 'El elemento ha sido eliminado con éxito.',
+                  icon: 'success'
+                }).then(() => {
+                  location.reload();
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Hubo un error al eliminar el elemento. Por favor, inténtalo de nuevo.',
+                  icon: 'error'
+                });
+              }
+            }
+          });
+        }
+      </script>
 </body>
 
 </html>

@@ -1,51 +1,36 @@
-/* Estilo para el cuerpo de la página */
 body {
   font-family: 'Bree Serif', serif;
-  background: #0F2027;
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  color: white;
+  background-color: #141B41;
 }
 
 
-/* Estilos generales para el navbar */
 .navbar {
-  background: #0F2027;
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background-color: #141B41;
   color: white;
 }
 
-/* Estilo para el botón del toggler en dispositivos móviles */
 .navbar-toggler {
   border-color: white;
-  /* Cambia el color del icono del toggler en dispositivos móviles */
 }
 
-/* Estilo para los enlaces del navbar */
 .navbar-nav .nav-link {
   color: white;
   font-size: 16px;
 }
 
-/* Estilo para el formulario de búsqueda */
 .form-inline .form-control {
   border-color: white;
 }
 
-/* Estilo para los botones de búsqueda y cerrar sesión */
 .navbar-nav .btn {
   font-size: 16px;
   margin-left: 10px;
-  /* Ajusta el espacio entre los elementos del navbar */
 }
 
-/* Estilo para el mensaje de bienvenida */
 .navbar-brand::after {
   font-size: 14px;
 }
 
-/* Estilos para el navbar fijo en la parte superior */
 .fixed-top {
   position: fixed;
   top: 0;
@@ -55,12 +40,9 @@ body {
   height: 60px;
 }
 
-/* Estilos para el enlace activo en el navbar */
 .navbar-nav .nav-item.active .nav-link {
   background-color: transparent;
-  /* Evita que el enlace activo tenga un fondo de color */
   border-bottom: 2px solid white;
-  /* Añade un borde inferior al enlace activo */
 }
 
 form.form-inline {
@@ -75,7 +57,6 @@ h1 {
   font-size: 36px;
   color: #ffffff;
   margin-bottom: 20px;
-  /* margin-top: 80px; */
 }
 
 h2 {
@@ -109,23 +90,17 @@ p {
   margin-bottom: 10px;
 }
 
-/* Estilo para el contenedor de imágenes */
 #series-images {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* Espacio entre las imágenes */
   margin-top: 20px;
-  /* Espacio superior */
 }
 
-/* Estilo para cada imagen */
 #series-images img {
   max-width: calc(33.33% - 10px);
-  /* Ancho de cada imagen (33.33% del contenedor) con espacio entre ellas */
   height: auto;
   margin-bottom: 20px;
-  /* Espacio inferior entre las imágenes */
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -138,21 +113,13 @@ p {
 
 #no-platforms-message {
   display: none;
-  /* Oculta el mensaje por defecto */
   background-color: lightgray;
-  /* Fondo gris claro */
   color: black;
-  /* Texto negro */
   font-size: 18px;
-  /* Tamaño de fuente */
   padding: 10px;
-  /* Espaciado interno */
   margin-top: 20px;
-  /* Espacio superior */
   border-radius: 8px;
-  /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* Sombra suave */
 }
 
 #series-cast {
@@ -193,18 +160,15 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* Espacio entre las imágenes */
   margin-top: 20px;
-  /* Espacio superior */
+
 }
 
-/* Estilo para cada imagen */
+
 #images img {
   max-width: calc(33.33% - 10px);
-  /* Ancho de cada imagen (33.33% del contenedor) con espacio entre ellas */
   height: auto;
   margin-bottom: 20px;
-  /* Espacio inferior entre las imágenes */
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -220,65 +184,61 @@ p {
   margin-top: 30px;
 }
 
-/* Estilos para el contenedor principal del reparto */
+
 .cast-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  /* Espacio entre los contenedores de actores */
+
 }
 
-/* Estilos para el contenedor del actor */
+
 .actor-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0F2027;
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background: #141B41;
   border-radius: 8px;
-  /* Bordes redondeados */
+
   padding: 10px;
-  /* Espaciado interno */
+
   margin: 10px;
-  /* Margen para separar los actores */
+
 }
 
-/* Estilos para la imagen del actor */
+
 .actor-container img {
   width: 50%;
-  /* Ajusta el tamaño de la imagen */
+
   height: auto;
   border-radius: 50%;
-  /* Para redondear la imagen como TMDb */
+
 }
 
-/* Estilos para el nombre del actor */
+
 .actor-name-container {
   text-align: center;
   font-weight: bold;
   font-size: 14px;
   margin-top: 10px;
-  /* Espacio superior entre la imagen y el nombre */
+
 }
 
-/* Estilo para las secciones */
+
 .section {
-  background: #0F2027;
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background: #1D265E;
   border-radius: 8px;
   padding: 20px;
   margin-top: 20px;
 }
 
-/* Estilo para los títulos de sección */
+
 .section h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-/* Estilo para el botón "Agregar a Favoritos" */
+
 #addToFavorites {
   background-color: #3498db;
   color: #fff;
@@ -293,7 +253,7 @@ p {
   background-color: #2980b9;
 }
 
-/* Estilo para el botón "Eliminar de Favoritos" */
+
 #removeFromFavorites {
   background-color: #e74c3c;
   color: #fff;
@@ -313,14 +273,11 @@ p {
 .icon-favoritos {
   background: url('img/favoritos.png') no-repeat;
   width: 16px;
-  /* Ajusta el ancho del icono según tus necesidades */
   height: 16px;
-  /* Ajusta la altura del icono según tus necesidades */
   display: inline-block;
   vertical-align: middle;
-  /* Para alinear verticalmente el icono con el texto del botón */
   margin-right: 5px;
-  /* Agrega un margen derecho para separar el icono del texto */
+
 }
 
 .no-images-message {
@@ -328,5 +285,10 @@ p {
 }
 
 .nav-link:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+#genres,
+#series-genres {
+  color: white;
 }

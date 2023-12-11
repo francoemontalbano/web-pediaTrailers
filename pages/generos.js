@@ -11,27 +11,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Evento al hacer clic en "Mostrar solo películas"
   showMoviesButton.addEventListener('click', function () {
-    // Mostrar solo botones de género de películas
+    // Muestro solo botones de género de películas
     movieGenreButtons.style.display = 'block';
     seriesGenreButtons.style.display = 'none';
 
-    // Limpia la cartelera de películas y series
+    // Limpio la cartelera de películas y series
     document.getElementById('movie-list').innerHTML = '';
     document.getElementById('series-list').innerHTML = '';
   });
 
   // Evento al hacer clic en "Mostrar solo series"
   showSeriesButton.addEventListener('click', function () {
-    // Mostrar solo botones de género de series
+    // Muestro solo botones de género de series
     seriesGenreButtons.style.display = 'block';
     movieGenreButtons.style.display = 'none';
 
-    // Limpia la cartelera de películas y series
+    // Limpio la cartelera de películas y series
     document.getElementById('movie-list').innerHTML = '';
     document.getElementById('series-list').innerHTML = '';
   });
 
-  // Cargar todos los botones de género de películas y series
+  // Cargo todos los botones de género de películas y series
   createGenreButtons('movie', 'movies', movieGenreButtons);
   createGenreButtons('tv', 'series', seriesGenreButtons);
 });
@@ -40,11 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function createGenreButtons(endpoint, mediaType, genreButtons) {
   const apiKey = '5f4e3a08b9be2e852b443b4cb14f45f7'; 
 
-  // Hacer una solicitud a la API para obtener la lista de géneros
+  // Hago una solicitud a la API para obtener la lista de géneros
   fetch(`https://api.themoviedb.org/3/genre/${endpoint}/list?api_key=${apiKey}&language=es-ES`)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       data.genres.forEach(genre => {
         const genreButton = document.createElement('button');
         genreButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-2');
@@ -83,37 +82,37 @@ function loadMediaByGenre(genreId, mediaType) {
         const title = media.title || media.name;
         const mediaId = media.id; // ID de la película o serie
 
-        // Crear un elemento para mostrar la película o serie envuelto en un enlace
+        // Creo un elemento para mostrar la película o serie envuelto en un enlace
         const mediaLink = document.createElement('a');
         mediaLink.href = mediaType === 'movies' ? `detalle-pelicula.php?id=${mediaId}` : `detalle-serie.php?id=${mediaId}`;
         mediaLink.classList.add('col-md-3', 'mb-3');
 
-        // Crear el elemento de la tarjeta de película o serie
+        // Creo el elemento de la tarjeta de película o serie
         const mediaElement = document.createElement('div');
         mediaElement.classList.add('card');
 
-        // Crear la imagen de la tarjeta
+        // Creo la imagen de la tarjeta
         const mediaImage = document.createElement('img');
         mediaImage.src = imageUrl;
         mediaImage.alt = title;
         mediaImage.classList.add('card-img-top');
 
-        // Crear el cuerpo de la tarjeta
+        // Creo el cuerpo de la tarjeta
         const mediaCardBody = document.createElement('div');
         mediaCardBody.classList.add('card-body');
 
-        // Crear el título de la película o serie
+        // Creo el título de la película o serie
         const mediaTitle = document.createElement('h5');
         mediaTitle.classList.add('card-title');
         mediaTitle.textContent = title;
 
-        // Anidar los elementos
+        // Anido los elementos
         mediaCardBody.appendChild(mediaTitle);
         mediaElement.appendChild(mediaImage);
         mediaElement.appendChild(mediaCardBody);
         mediaLink.appendChild(mediaElement);
 
-        // Agregar el enlace con la película o serie a la lista correspondiente
+        // Agrego el enlace con la película o serie a la lista correspondiente
         mediaList.appendChild(mediaLink);
       });
     })

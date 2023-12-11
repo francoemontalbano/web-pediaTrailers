@@ -8,16 +8,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Obtener el ID de la serie de la API desde la solicitud
+    // Obtengo el ID de la serie de la API desde la solicitud
     $mediaId = $_POST['mediaId'];
-    // Obtener el ID del usuario desde la sesión
+    // Obtengo el ID del usuario desde la sesión
     $userId = $_SESSION['id_usuario'];
-    // Obtener el comentario desde la solicitud
+    // Obtengo el comentario desde la solicitud
     $commentText = $_POST['commentText'];
-    // Obtener la fecha desde la solicitud
+    // Obtengo fecha 
     $fecha = $_POST['fecha'];
 
-    // Insertar el comentario en la tabla de comentarios_series
+    
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Verificar si el usuario actual es un usuario invitado
+    // Verifico si el usuario actual es un usuario invitado
     if (strpos($userId, 'guest_') !== false) {
         echo json_encode(['success' => false, 'message' => 'Debe registrarse para usar esta función']);
         exit;
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $insertQuery = "INSERT INTO comentarios_series (id_usuario, id_serie_api, comentario, fecha) VALUES (?, ?, ?, ?)";
 
+    //Vinculo parametros enteros y de tipo cadena
     $stmt = $conn->prepare($insertQuery);
     $stmt->bind_param("iiss", $userId, $mediaId, $commentText, $fecha);
 

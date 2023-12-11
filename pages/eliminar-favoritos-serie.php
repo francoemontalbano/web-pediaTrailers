@@ -1,19 +1,19 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+// Verifico si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Obtener el ID de la serie de la API desde la solicitud
+    // Obtengo el ID de la serie de la API desde la solicitud
     $mediaId = $_POST['mediaId'];
-    // Obtener el ID del usuario desde la sesión
+    // Obtengo el ID del usuario desde la sesión
     $userId = $_SESSION['id_usuario'];
 
-    // Eliminar la serie de la tabla de favoritos_series si existe
+    // Elimino la serie de la tabla de favoritos_series si existe
     $servername = "localhost";
     $username = "root";
     $password = "";

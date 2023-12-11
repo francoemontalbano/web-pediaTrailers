@@ -1,15 +1,24 @@
 <?php
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php');
-    exit;
+  header('Location: login.php');
+  exit;
+}
+
+// Verifico si existe la cookie de usuario invitado
+if (isset($_COOKIE['usuario_invitado'])) {
+  $cerrarSesionTexto = 'Cerrar sesión de Invitado e Iniciar sesión';
+  $cerrarSesionEnlace = 'login.php';
+} else {
+  $cerrarSesionTexto = 'Cerrar Sesión';
+  $cerrarSesionEnlace = 'cerrarsesion.php';
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,8 +28,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   <link rel="stylesheet" href="../css/generos.css">
   <link rel="icon" href="../img/Icono.png">
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-custom fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light bg-custom fixed-top">
     <a class="navbar-brand text-white" href="index.php">
       <img src="../img/Icono.png" alt="PediaTrailers Icon" width="30" height="30" class="mr-2">
       pediaTrailers
@@ -33,13 +43,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
           <a class="nav-link text-white mr-2" id="btn-trailers-populares" href="index.php" style="font-size: 16px;">Home</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="proximamente-pelicula.php" style="font-size: 16px;">Top Estrenos</a>
+          <a class="nav-link text-white mr-2" href="proximamente-pelicula.php" style="font-size: 16px;">Top Estrenos</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="ranking.php" style="font-size: 16px;">Ranking</a>
+          <a class="nav-link text-white mr-2" href="ranking.php" style="font-size: 16px;">Ranking</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" id="btn-buscar-generos" href="generos.php" style="font-size: 16px;">Buscar por Géneros</a>
+          <a class="nav-link text-white mr-2" id="btn-buscar-generos" href="generos.php" style="font-size: 16px;">Buscar por Géneros</a>
         </li>
       </ul>
       <form class="form-inline" action="resultados.php" method="GET">
@@ -48,10 +58,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-        <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
+          <a class="nav-link text-white mr-2" href="misfavoritos.php" style="font-size: 16px;">Mis Favoritos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="cerrarsesion.php" style="font-size: 16px;">Cerrar Sesión</a>
+          <a class="nav-link text-white" href="<?php echo $cerrarSesionEnlace; ?>" style="font-size: 16px;"><?php echo $cerrarSesionTexto; ?></a>
         </li>
       </ul>
     </div>
@@ -60,28 +70,28 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   <br><br><br><br><br><br>
   <h1>Top 10</h1>
   <!-- Botón para filtrar las 10 mejores películas -->
-<!-- Botón para mostrar las 10 mejores películas -->
-<div class="text-center">
-  <button id="show-top-movies-button" class="btn btn-primary">Filtrar las 10 mejores películas</button>
-  <button id="show-top-series-button" class="btn btn-primary">Filtrar las 10 mejores series</button>
-</div>
-
-
-
-
-<!-- Contenedor de películas -->
-<div class="container">
-  <div class="row mt-4" id="movie-list">
-    <!-- Aquí se mostrarán las 10 mejores películas -->
+  <!-- Botón para mostrar las 10 mejores películas -->
+  <div class="text-center">
+    <button id="show-top-movies-button" class="btn btn-primary">Filtrar las 10 mejores películas</button>
+    <button id="show-top-series-button" class="btn btn-primary">Filtrar las 10 mejores series</button>
   </div>
-</div>
 
-<!-- Contenedor de series -->
-<div class="container">
-  <div class="row mt-4" id="series-list">
-    <!-- Aquí se mostrarán las 10 mejores series -->
+
+
+
+  <!-- Contenedor de películas -->
+  <div class="container">
+    <div class="row mt-4" id="movie-list">
+      <!-- Aquí se mostrarán las 10 mejores películas -->
+    </div>
   </div>
-</div>
+
+  <!-- Contenedor de series -->
+  <div class="container">
+    <div class="row mt-4" id="series-list">
+      <!-- Aquí se mostrarán las 10 mejores series -->
+    </div>
+  </div>
 
 
 
@@ -90,4 +100,5 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="ranking.js"></script>
 </body>
+
 </html>

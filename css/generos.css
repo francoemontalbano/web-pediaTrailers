@@ -1,54 +1,44 @@
 @media screen and (max-width: 768px) {
-  /* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+ 
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-  /* Estilos para pantallas medianas (por ejemplo, tabletas) */
+  
 }
 
 @media screen and (min-width: 1025px) {
-  /* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+  
 }
 
-body{
-    font-family: 'Bree Serif', serif;
-    background: #0F2027;  
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); 
+body {
+  font-family: 'Bree Serif', serif;
+  background-color: #141B41;
 }
 
 
-/* Estilos generales para el navbar */
 .navbar {
-  background: #0F2027;
-  background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);
-  background: linear-gradient(to right, #2C5364, #203A43, #0F2027);
+  background-color: #141B41;
   color: white;
 }
 
-/* Estilo para los enlaces del navbar */
 .navbar-nav .nav-link {
   color: white;
   font-size: 16px;
 }
 
-/* Estilo para el formulario de búsqueda */
 .form-inline .form-control {
   border-color: white;
 }
 
-/* Estilo para los botones de búsqueda y cerrar sesión */
 .navbar-nav .btn {
   font-size: 16px;
-  margin-left: 10px; /* Ajusta el espacio entre los elementos del navbar */
+  margin-left: 10px;
 }
 
-/* Estilo para el mensaje de bienvenida */
 .navbar-brand::after {
   font-size: 14px;
 }
 
-/* Estilos para el navbar fijo en la parte superior */
 .fixed-top {
   position: fixed;
   top: 0;
@@ -58,24 +48,22 @@ body{
   height: 60px;
 }
 
-/* Estilos para el enlace activo en el navbar */
 .navbar-nav .nav-item.active .nav-link {
-  background-color: transparent; /* Evita que el enlace activo tenga un fondo de color */
-  border-bottom: 2px solid white; /* Añade un borde inferior al enlace activo */
+  background-color: transparent;
+  border-bottom: 2px solid white;
 }
 
 .nav-link:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  color: wheat;
-  margin-top: 20px; /* Ajusta la cantidad de espacio que deseas */
+  color: white;
+  margin-top: 20px;
   text-align: center;
   font-size: 2.5rem;
 }
 
-/* Estilo para los botones de género */
 .btn-primary {
   background-color: #3498db;
   color: #fff;
@@ -89,7 +77,6 @@ h1 {
   background-color: #2980b9;
 }
 
-/* Estilo para los títulos de género */
 h2 {
   color: white;
   text-align: center;
@@ -98,8 +85,8 @@ h2 {
 }
 
 .card {
-  width: 250px;  /* Ajusta el ancho según tu preferencia */
-  height: 475px; /* Ajusta el alto según tu preferencia */
+  width: 250px;
+  height: 475px;
   margin: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -110,7 +97,7 @@ h2 {
 
 .card-img-top {
   width: 100%;
-  height: 75%; /* Ajusta el tamaño según tu preferencia */
+  height: 75%;
   display: block;
   object-fit: cover;
   transition: transform 0.2s;
@@ -118,7 +105,6 @@ h2 {
 
 
 
-/* Estilo para el título de la película o serie */
 .card-title {
   font-size: 16px;
   margin: 10px 0;
@@ -126,25 +112,21 @@ h2 {
   color: white;
 }
 
-/* Estilo para resaltar las tarjetas al pasar el mouse por encima */
 .card:hover {
   background: rgba(0, 0, 0, 0.5);
   transform: scale(1.02);
 }
 
-/* Estilo para la transición suave en las imágenes */
 .card:hover .card-img-top {
   transform: scale(1.05);
 }
 
-/* CSS para ocultar los botones de géneros al cargar la página */
 #genre-buttons-movies,
 #genre-buttons-series {
   display: none;
 }
 
-/* CSS para centrar los botones "Filtrar por películas" y "Filtrar por series" */
-#show-movies-button{
+#show-movies-button {
   text-align: center;
   margin-left: 400px;
 }
@@ -153,10 +135,9 @@ h2 {
 #show-series-button button {
   margin: 0 auto;
   display: block;
-  
+
 }
 
-h1{
+h1 {
   text-align: center;
 }
-

@@ -1,29 +1,27 @@
-/* Estilo para el contenedor de comentarios */
 #comments-container {
-    margin-top: 20px;
-  }
-  
-  /* Estilo para cada comentario */
-  .comment {
-    background-color: #fff; /* Fondo blanco */
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  }
-  
-  .comment p {
-    margin: 0;
-    color: #333; /* Color del texto */
-  }
-  
-  .comment span {
-    font-size: 0.8em;
-    color: #888; /* Color del texto secundario */
-  }
-  
-  /* Estilo para el formulario de comentarios */
+  margin-top: 20px;
+}
+
+.comment {
+  background-color: #fff;
+  /* Fondo blanco */
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment p {
+  margin: 0;
+  color: #333;
+}
+
+.comment span {
+  font-size: 0.8em;
+  color: #888;
+}
+
 #commentForm {
   margin-top: 20px;
   display: flex;
@@ -37,7 +35,7 @@
 }
 
 #commentSubmit {
-  align-self: flex-end; /* Alinea el botón al extremo derecho del contenedor */
+  align-self: flex-end;
   background-color: #3498db;
   color: white;
   padding: 10px 20px;
@@ -51,18 +49,16 @@
 }
 
 
-  /* Agrega estos estilos en tu archivo de estilos CSS o en el encabezado de tu HTML */
+
 Button {
-    background-color: #3498db;
-    color: white; /* Color del texto */
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cursor al pasar el ratón */
-  }
-  
-  #commentButton:hover {
-    background-color: #455da0; /* Cambio de color al pasar el ratón */
-  }
-  
-  
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#commentButton:hover {
+  background-color: #455da0;
+}

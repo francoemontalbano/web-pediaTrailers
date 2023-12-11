@@ -1,20 +1,20 @@
-// Obtener el ID del medio (película o serie) de la URL
+// Obtengo el ID del medio (película o serie) de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const mediaId = urlParams.get('id');
-const mediaType = urlParams.get('type'); // Agregar un parámetro "type" a la URL
+const mediaType = urlParams.get('type'); 
 
-// Obtener los elementos del botón "Agregar a Favoritos" y "Eliminar de Favoritos" en tu HTML
+// Obtengo los elementos del botón "Agregar a Favoritos" y "Eliminar de Favoritos"
 const addToFavoritesButton = document.getElementById('addToFavorites');
 const removeFromFavoritesButton = document.getElementById('removeFromFavorites');
 
-// Obtener el contenedor de comentarios y el formulario de comentarios en tu HTML
+// Obtengo el contenedor de comentarios y el formulario de comentarios
 const commentsContainer = document.getElementById('comments-container');
 const commentForm = document.getElementById('commentForm');
-// Obtener la fecha actual en formato ISO (ejemplo: "2023-11-13T12:00:00")
+// Obtengo la fecha actual
 const fecha = new Date().toISOString();
 
 
-// Agregar una función asincrónica para verificar si el medio está en favoritos
+// Agrego una función asincrónica para verificar si el medio está en favoritos
 async function checkIfMediaIsInFavorites() {
   try {
     const response = await fetch('verificar-favoritos.php', {
@@ -172,6 +172,7 @@ removeFromFavoritesButton.addEventListener('click', async function () {
   }
 });
 
+
 // Agregar un evento submit al formulario de comentarios
 commentForm.addEventListener('submit', async function (event) {
   event.preventDefault();
@@ -213,6 +214,7 @@ commentForm.addEventListener('submit', async function (event) {
           title: 'Error',
           text: data.message,
         });
+        document.getElementById('commentText').value = ''; 
       }
     } else {
       console.error('Error en la solicitud al servidor');
@@ -353,12 +355,12 @@ if (mediaData.overview) {
 
 
 
-    // Obtener las imágenes de la película
+    // Obtengo las imágenes de la película
     const imagesUrl = `https://api.themoviedb.org/3/movie/${mediaId}/images?api_key=${apiKey}`;
     fetch(imagesUrl)
       .then(response => response.json())
       .then(imagesData => {
-        // Recorrer las primeras 3 imágenes y mostrar su URL
+        // Recorro las primeras 3 imágenes y mostrar su URL
         const images = imagesData.backdrops.slice(0, 3);
 
         if (images.length > 0) {
@@ -369,7 +371,7 @@ if (mediaData.overview) {
             imagesElement.appendChild(imageElement);
           });
         } else {
-          // Mostrar un mensaje indicando que no se encontraron imágenes
+          // Muestro un mensaje indicando que no se encontraron imágenes
           const noImagesMessage = document.createElement('p');
           noImagesMessage.textContent = 'No se encontraron imágenes.';
           noImagesMessage.classList.add('no-images-message'); // 
@@ -378,7 +380,7 @@ if (mediaData.overview) {
       });
 
 
-    // Obtener el tráiler de la película en inglés con subtítulos en español
+    // Obtengo el tráiler de la película en inglés con subtítulos en español
     const videosUrl = `https://api.themoviedb.org/3/movie/${mediaId}/videos?api_key=${apiKey}&language=en-US`; // Trailer en inglés
     fetch(videosUrl)
       .then(response => response.json())
@@ -398,7 +400,7 @@ if (mediaData.overview) {
         }
       });
 
-    // Obtener las plataformas de transmisión para la película en Argentina y mostrarlas
+    // Obtengo las plataformas de transmisión para la película en Argentina y mostrarlas
     getStreamingPlatformsInArgentina('movie', mediaId, apiKey)
       .then(platforms => {
         if (platforms && platforms.AR) {
@@ -407,18 +409,18 @@ if (mediaData.overview) {
             const platformNames = streamingPlatforms.map(platform => platform.provider_name);
             platformsElement.textContent = `Plataformas de transmisión: ${platformNames.join(', ')}`;
           } else {
-            // Mostrar un mensaje indicando que no hay datos disponibles
+            // Muestro un mensaje indicando que no hay datos disponibles
             platformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
           }
         } else {
-          // Mostrar un mensaje indicando que no hay datos disponibles
+          // Muestro un mensaje indicando que no hay datos disponibles
           platformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
         }
       })
       .catch(error => {
         // Manejo de errores en caso de que la solicitud falle
         console.error('Error:', error);
-        // Mostrar un mensaje indicando que no hay datos disponibles
+        // Muestro un mensaje indicando que no hay datos disponibles
         platformsElement.textContent = 'Información de plataformas no disponible en Argentina en este momento';
       });
   })

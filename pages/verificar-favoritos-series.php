@@ -7,12 +7,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Obtener el ID de la serie de la API desde la solicitud
+    // Obtengo el ID de la serie de la API desde la solicitud
     $mediaId = $_POST['mediaId'];
-    // Obtener el ID del usuario desde la sesión
+    // Obtengo el ID del usuario desde la sesión
     $userId = $_SESSION['id_usuario'];
 
-    // Conexión a la base de datos
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -20,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Consultar si la serie ya está en favoritos
+    // Consulto si la serie ya está en favoritos
     $checkQuery = "SELECT id FROM favoritos_series WHERE id_usuario = ? AND id_serie_api = ?";
     $checkStmt = $conn->prepare($checkQuery);
     $checkStmt->bind_param("ii", $userId, $mediaId);

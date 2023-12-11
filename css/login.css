@@ -1,13 +1,13 @@
 @media screen and (max-width: 768px) {
-  /* Estilos para pantallas pequeñas (por ejemplo, dispositivos móviles) */
+ 
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-  /* Estilos para pantallas medianas (por ejemplo, tabletas) */
+ 
 }
 
 @media screen and (min-width: 1025px) {
-  /* Estilos para pantallas grandes (por ejemplo, computadoras de escritorio) */
+ 
 }
 
 
@@ -35,6 +35,13 @@ form {
   max-height: 350px; 
 }
 
+
+.btn-invitar {
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -45,11 +52,11 @@ form {
 .caja-registro {
   background-color: rgba(255, 255, 255, 0.7); 
   border-radius: 5px;
-  padding: 20px;
+  padding: 40px;
   max-width: 400px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-top: -150px;
-  height: 450px;
+  height: 475px;
 }
 
 form {
@@ -60,6 +67,16 @@ form {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.guest-link {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+p{
+  text-align: center;
 }
 
 input[type="text"],
@@ -85,4 +102,13 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   background-color: #0062cc;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
 }
